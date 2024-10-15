@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Wardrobe AI</title>
+    <link rel="stylesheet" href="styles.css"> <!-- Link to your CSS file -->
+    <style>
+        /* CSS Styles for the Wardrobe AI application */
+        body {
+            font-family: 'Arial', sans-serif;
+            background-color: #f8f9fa;
+            margin: 0;
+            padding: 0;
+        }
+        
+        .container {
+            max-width: 800px;
+            margin: auto;
+            padding: 20px;
+            background-color: #ffffff;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+        }
+        
+        .header {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        .header h1 {
+            font-size: 2.5em;
+            color: #343a40;
+        }
+
+        .header p {
+            font-size: 1.2em;
+            color: #6c757d;
+        }
+
+        form {
+            margin-bottom: 20px;
+        }
+
+        form input[type="text"],
+        form select {
+            width: calc(100% - 20px);
+            padding: 10px;
+            margin: 10px 0;
+            border: 1px solid #ced4da;
+            border-radius: 4px;
+            font-size: 1em;
+        }
+
+        button {
+            padding: 10px 20px;
+            background-color: #007bff;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 1em;
+        }
+
+        button:hover {
+            background-color: #0056b3;
+        }
+
+        .recommendation {
+            background-color: #e9ecef;
+            padding: 15px;
+            border-radius: 5px;
+            margin-top: 20px;
+        }
+
+        .recommendation h2 {
+            color: #343a40;
+        }
+
+        .recommendation p {
+            font-size: 1.1em;
+            color: #495057;
+        }
+
+        .footer {
+            text-align: center;
+            margin-top: 30px;
+            font-size: 0.9em;
+            color: #6c757d;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>Wardrobe AI</h1>
+            <p>Your personal outfit advisor</p>
+        </div>
+        
+        <form id="clothing-form">
+            <input type="text" id="clothing-items" placeholder="Enter your clothing items (e.g., dress, shoes, jacket)..." required>
+            <select id="occasion" required>
+                <option value="">Select occasion</option>
+                <option value="party">Party</option>
+                <option value="casual">Casual</option>
+                <option value="formal">Formal</option>
+            </select>
+            <button type="submit">Get Outfit Suggestion</button>
+        </form>
+        
+        <div class="recommendation" id="recommendation" style="display: none;">
+            <h2>Your Suggested Outfit</h2>
+            <p id="outfit-suggestion"></p>
+        </div>
+        
+        <div class="footer">
+            <p>&copy; 2024 Wardrobe AI. All rights reserved.</p>
+        </div>
+    </div>
+
+    <script>
+        document.getElementById('clothing-form').addEventListener('submit', async function(event) {
+            event.preventDefault();
+
+            const clothingItems = document.getElementById('clothing-items').value;
+            const occasion = document.getElementById('occasion').value;
+
+            // Call your T5 model API here to get outfit suggestions
+            const response = await fetch('http://your-api-endpoint', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({ clothingItems, occasion })
+            });
+
+            const data = await response.json();
+
+            // Display the outfit suggestion
+            document.getElementById('outfit-suggestion').innerText = data.suggestion;
+            document.getElementById('recommendation').style.display = 'block';
+        });
+    </script>
+</body>
+</html>
